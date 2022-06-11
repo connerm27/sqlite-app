@@ -128,6 +128,29 @@ class DBHelper {
     
     
     
+    func deleteById(id:Int) {
+        let deleteStatementString = "DELETE FROM persons WHERE Id = ?;"
+        var deleteStatement: OpaquePointer? = nil
+        
+        if sqlite3_prepare_v2(db, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {
+            sqlite3_bind_int(deleteStatement, 1, Int32(id))
+            if sqlite3_step(deleteStatement) == SQLITE_DONE {
+                print("Successfully deleted row")
+            } else {
+                print("Error: could not delete row")
+            }
+            
+            
+        } else {
+            print("Error: could not prepare delete statement")
+            
+        }
+        
+        sqlite3_finalize(deleteStatement)
+        
+        
+    }
+    
     
     
     
