@@ -68,6 +68,27 @@ class DBHelper {
                 return
             }
         }
+        let insertStatementString = "INSERT INTO person (Id, name, age) VALUES (?, ?, ?);"
+        var insertStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
+            sqlite3_bind_int(insertStatement, 1, Int32(id))
+            sqlite3_bind_text(insertStatement, 2, (name as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(insertStatement, 3, Int32(age))
+            
+            if sqlite3_step(insertStatement) == SQLITE_DONE {
+                print("Successfully inserted row")
+            } else {
+                print("Error: Could not insert row")
+            }
+            
+            
+        } else {
+            print ("Error: INSERT statement could not be prepared")
+        }
+        
+        sqlite3_finalize(insertStatement)
+        
+        
         
     }
     
