@@ -16,7 +16,7 @@ class Person {
     var age: Int = 0
     var id: Int = 0
     
-    init(name:String, age:Int, id:Int){
+    init(id:Int, name:String, age:Int){
         self.name = name
         self.age = age
         self.id  = id
