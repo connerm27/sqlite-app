@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
 
@@ -21,6 +22,31 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var persons:[Person] = []
     
     
+    
+
+    
+    
+    @IBOutlet weak var nameField: UITextField!
+    @IBOutlet weak var ageField: UITextField!
+    
+    
+    @IBOutlet weak var submitForm: UIButton!
+    
+    @IBAction func submitFormAction(_ sender: Any) {
+        
+        let appendName:String = nameField.text ?? "N/A"
+        let appendAge = ageField.text ?? "0"
+        
+       // appendAge = Int(appendAge)
+        
+        
+        
+      //  let PersonInstance = Person(id:idNum, name:appendName, age:appendAge)
+        
+        submitFormNow()
+        
+        
+    }
     
     
     
@@ -59,11 +85,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
         tableView.dataSource = self
         
-        db.insert(id: 1, name: "Bilal", age: 24)
-              db.insert(id: 2, name: "Bosh", age: 25)
-              db.insert(id: 3, name: "Thor", age: 23)
-              db.insert(id: 4, name: "Edward", age: 44)
-              db.insert(id: 5, name: "Ronaldo", age: 34)
+        db.insert(name: "Conner", age: 24)
+              db.insert(name: "Conner", age: 25)
+              db.insert(name: "Conner", age: 23)
+              db.insert(name: "Conner", age: 44)
+              db.insert(name: "Conner", age: 34)
               
               persons = db.read()
         
@@ -84,7 +110,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    
+    func submitFormNow() {
+        
+        
+        
+        
+    }
     
 
 

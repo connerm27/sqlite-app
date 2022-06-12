@@ -14,12 +14,12 @@ import Foundation
 class Person {
     var name: String = ""
     var age: Int = 0
-    var id: Int = 0
+
     
-    init(id:Int, name:String, age:Int){
+    init(name:String, age:Int){
         self.name = name
         self.age = age
-        self.id  = id
+
         
     }
     

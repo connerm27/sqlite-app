@@ -41,7 +41,7 @@ class DBHelper {
     
     
     func createTable() {
-        let createTableString = "CREATE TABLE IF NOT EXISTS person(Id INTEGER PRIMARY KEY, name TEXT, age INTEGER);"
+        let createTableString = "CREATE TABLE IF NOT EXISTS person1(Id INTEGER PRIMARY KEY, name TEXT, age INTEGER);"
         
         var createTableStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, createTableString, -1, &createTableStatement, nil) == SQLITE_OK {
@@ -61,19 +61,22 @@ class DBHelper {
     
     
     // insert function
-    func insert(id:Int, name:String, age:Int) {
-        let persons = read()
+    func insert(name:String, age:Int) {
+        //let persons = read()
+       
+        /*
         for p in persons {
             if p.id == id {
                 return
             }
         }
-        let insertStatementString = "INSERT INTO person (Id, name, age) VALUES (?, ?, ?);"
+         */
+        let insertStatementString = "INSERT INTO person1(name, age) VALUES (?, ?);"
         var insertStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
-            sqlite3_bind_int(insertStatement, 1, Int32(id))
-            sqlite3_bind_text(insertStatement, 2, (name as NSString).utf8String, -1, nil)
-            sqlite3_bind_int(insertStatement, 3, Int32(age))
+            
+            sqlite3_bind_text(insertStatement, 0, (name as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(insertStatement, 1, Int32(age))
             
             if sqlite3_step(insertStatement) == SQLITE_DONE {
                 print("Successfully inserted row")
@@ -93,7 +96,7 @@ class DBHelper {
     func read() -> [Person] {
         
         // SQL Query Statement selects from database
-        let queryStatementString = "SELECT * FROM person;"
+        let queryStatementString = "SELECT * FROM person1;"
         
         var queryStatement: OpaquePointer? = nil
 
@@ -102,14 +105,14 @@ class DBHelper {
         
         if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
             while sqlite3_step(queryStatement) == SQLITE_ROW {
-                let id = sqlite3_column_int(queryStatement, 0)
-                let name = String(describing: String(cString: sqlite3_column_text(queryStatement, 1)))
-                let year = sqlite3_column_int(queryStatement, 2)
+               // let id = sqlite3_column_int(queryStatement, 0)
+                let name = String(describing: String(cString: sqlite3_column_text(queryStatement, 0)))
+                let year = sqlite3_column_int(queryStatement,  1)
                 
                 // AFter getting data for each column, add to psns array
-                psns.append(Person(id: Int(id), name: name, age: Int(year)))
+                psns.append(Person(name: name, age: Int(year)))
                 print("Query Result: ")
-                print("\(id) | \(name) | \(year)")
+                print(" \(name) | \(year)")
             }
             
             
