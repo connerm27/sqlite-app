@@ -35,15 +35,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func submitFormAction(_ sender: Any) {
         
         let appendName:String = nameField.text ?? "N/A"
-        let appendAge = ageField.text ?? "0"
-        
-       // appendAge = Int(appendAge)
+        var appendAge = ageField.text ?? "0"
         
         
         
-      //  let PersonInstance = Person(id:idNum, name:appendName, age:appendAge)
         
-        submitFormNow()
+        
+        let PersonInstance = Person(name:appendName, age:Int(appendAge) ?? 0)
+        
+        submitFormNow(p:PersonInstance)
         
         
     }
@@ -85,12 +85,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
         tableView.dataSource = self
         
+        /*
         db.insert(name: "Conner", age: 24)
               db.insert(name: "Conner", age: 25)
               db.insert(name: "Conner", age: 23)
               db.insert(name: "Conner", age: 44)
               db.insert(name: "Conner", age: 34)
-              
+              */
               persons = db.read()
         
         
@@ -110,8 +111,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    func submitFormNow() {
+    func submitFormNow(p:Person) {
         
+        
+        db.insert(name: p.name, age: p.age)
+        persons = db.read()
+        tableView.reloadData()
         
         
         
