@@ -75,8 +75,8 @@ class DBHelper {
         var insertStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
             
-            sqlite3_bind_text(insertStatement, 0, (name as NSString).utf8String, -1, nil)
-            sqlite3_bind_int(insertStatement, 1, Int32(age))
+            sqlite3_bind_text(insertStatement, 1, (name as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(insertStatement, 2, Int32(age))
             
             if sqlite3_step(insertStatement) == SQLITE_DONE {
                 print("Successfully inserted row")
@@ -106,8 +106,8 @@ class DBHelper {
         if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
             while sqlite3_step(queryStatement) == SQLITE_ROW {
                // let id = sqlite3_column_int(queryStatement, 0)
-                let name = String(describing: String(cString: sqlite3_column_text(queryStatement, 0)))
-                let year = sqlite3_column_int(queryStatement,  1)
+                let name = String(describing: String(cString: sqlite3_column_text(queryStatement, 1)))
+                let year = sqlite3_column_int(queryStatement,  2)
                 
                 // AFter getting data for each column, add to psns array
                 psns.append(Person(name: name, age: Int(year)))
