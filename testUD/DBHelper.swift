@@ -105,14 +105,14 @@ class DBHelper {
         
         if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
             while sqlite3_step(queryStatement) == SQLITE_ROW {
-               // let id = sqlite3_column_int(queryStatement, 0)
+                let id = sqlite3_column_int(queryStatement, 0)
                 let name = String(describing: String(cString: sqlite3_column_text(queryStatement, 1)))
                 let year = sqlite3_column_int(queryStatement,  2)
                 
                 // AFter getting data for each column, add to psns array
-                psns.append(Person(name: name, age: Int(year)))
+                psns.append(Person(name: name, age: Int(year), id: Int(id)))
                 print("Query Result: ")
-                print(" \(name) | \(year)")
+                print(" \(id) | \(name) | \(year)")
             }
             
             
@@ -132,7 +132,7 @@ class DBHelper {
     
     
     func deleteById(id:Int) {
-        let deleteStatementString = "DELETE FROM persons WHERE Id = ?;"
+        let deleteStatementString = "DELETE FROM person1 WHERE Id = ?;"
         var deleteStatement: OpaquePointer? = nil
         
         if sqlite3_prepare_v2(db, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {

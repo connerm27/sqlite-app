@@ -35,14 +35,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func submitFormAction(_ sender: Any) {
         
         let appendName:String = nameField.text ?? "N/A"
-        var appendAge = ageField.text ?? "0"
+        let appendAge = ageField.text ?? "0"
         
         
-        
-        
-        
-        let PersonInstance = Person(name:appendName, age:Int(appendAge) ?? 0)
-        
+        let PersonInstance = Person(name:appendName, age:Int(appendAge) ?? 0, id: 0)
         submitFormNow(p:PersonInstance)
         
         
@@ -109,6 +105,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.textLabel?.text = "Name: " + persons[indexPath.row].name + ", " + "Age: " + String(persons[indexPath.row].age)
         return cell
         
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        db.deleteById(id: persons[indexPath.row].id)
+        persons.remove(at:indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        tableView.reloadData()
+        
+        
+        
+    
     }
     
     func submitFormNow(p:Person) {
